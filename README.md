@@ -2,7 +2,7 @@
 ![MEME_logo3](https://user-images.githubusercontent.com/49297774/150669455-62fcfce6-9659-4274-9334-2a7999181f9c.png)
 
 # Modular EEG Mapping Echosystem (MEME)
-# EEG_m4l
+
 Bundle of Max4Live devices using EEG signal for dynamical audio-visual composition. It is designed to provide flexible mapping of real-time EEG signals for digital artists.
 
 This bundle is designed to be coupled with the use of EEG_synth (https://github.com/hyruuk/eegsynth/tree/dev_cbc) and Muse headset.
