@@ -1,7 +1,4 @@
-![MEME-2022_03](https://user-images.githubusercontent.com/49297774/151101793-c6b08013-232f-44fd-aee6-3b17578f600d.png)
-
-
-# Modular EEG Mapping Echosystem (MEME)
+![MEME-2022_03](https://user-images.githubusercontent.com/49297774/151102306-3c10e827-45d8-4783-a560-400613e6db8f.png)
 
 Bundle of Max4Live devices using EEG signal for dynamical audio-visual composition. It is designed to provide flexible mapping of real-time EEG signals for digital artists.
 
