@@ -1,5 +1,5 @@
+![MEME-2022_03](https://user-images.githubusercontent.com/49297774/151101793-c6b08013-232f-44fd-aee6-3b17578f600d.png)
 
-![MEME_logo3](https://user-images.githubusercontent.com/49297774/150669455-62fcfce6-9659-4274-9334-2a7999181f9c.png)
 
 # Modular EEG Mapping Echosystem (MEME)
 
@@ -34,9 +34,11 @@ The cognitive accumulator/trigger is a module designed to trigger events in the 
 
 ## Brain decoder
 
-The Brain decoder module uses supervised machine learning classifiers. By feeding data from different mental states states, the algorithm learns to classify new data as belonging to one of the pre-learned state. To choice of feature can be made in the extended window opening when clicking on ''feature engineering'' button. 
+The Brain decoder module uses supervised machine learning classifiers. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''feature engineering'' button, the choice of feature can be made.
 
 ## Biotuner modules
+
+![MIDI_microtonality](https://user-images.githubusercontent.com/49297774/151101907-48febc60-ceb0-434a-a006-2d706b39c1c1.png)
 
 These modules interface the Biotuner Python toolbox (https://github.com/antoinebellemare/biotuner)
 They allow to use dynamical microtonal tunings and euclidean rhythms derived from EEG signals for realtime musical composition.
