@@ -22,15 +22,15 @@ Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track an
 
 ## EEG_playback module
 
-![EEG_playback](https://user-images.githubusercontent.com/49297774/150669553-0d1533ef-7ea6-4e1e-9355-2a4efa24a73c.png)
-
 The **EEG_playback** module can replace the EEG_stream module when pre-recorded signals are used. When signal is streamed, all the other modules are able to receive the data they are expected.
+
+![EEG_playback](https://user-images.githubusercontent.com/49297774/150669553-0d1533ef-7ea6-4e1e-9355-2a4efa24a73c.png)
 
 ## Cognitive accumulator/trigger
 
-![image](https://user-images.githubusercontent.com/49297774/150669653-80abe0b5-b1c8-497e-ab6a-cf603d51866a.png)
-
 The **cognitive accumulator/trigger** is a module designed to **trigger events such as audio clips, or musical scenes**. The trigger happens when a specific EEG feature reaches a chosen threshold and stays above it for a certain amount of time, indicating that ‘’a state’’ has been detected. This module allows to navigate between musical scenes based on the detection of cognitive states. 
+
+![image](https://user-images.githubusercontent.com/49297774/150669653-80abe0b5-b1c8-497e-ab6a-cf603d51866a.png)
 
 ## Brain decoder
 
