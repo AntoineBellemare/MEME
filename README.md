@@ -39,9 +39,11 @@ These modules interface the Biotuner Python toolbox (https://github.com/antoineb
 They allow to use dynamical microtonal tunings and euclidean rhythms derived from EEG signals for realtime musical composition.
 
 The Tuning Foraging module allows flexible control over biotunings, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
+
 ![Tuning_foraging](https://user-images.githubusercontent.com/49297774/151102421-7a62b5f3-9b08-48af-b410-2398b50945fa.png)
 
 The MIDI_microtonality module allows to load tuning files from .scl and .txt, as well as write new tuning directly in the module. It can also be coupled with the Tuning Foraging module to receive tunings dynamically from the Biotuner.
+
 ![MIDI_microtonality](https://user-images.githubusercontent.com/49297774/151101907-48febc60-ceb0-434a-a006-2d706b39c1c1.png)
 
 
