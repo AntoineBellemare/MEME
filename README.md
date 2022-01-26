@@ -4,7 +4,7 @@ Bundle of Max4Live devices using EEG signal for dynamical audio-visual compositi
 
 This bundle is primarilly intended to be coupled with the use of EEG_synth (https://github.com/hyruuk/eegsynth/tree/dev_cbc) and Muse headset.
 The _EEG_stream_ module allows to receive the OSC messages and stream it to any other module that requires it.
-If the user doesn't have a Muse headset, the module EEG_playback allows to stream pre-recorder EEG signals.
+If the user doesn't have a Muse headset, the module EEG_playback allows to stream pre-recorded EEG signals.
 The modulation modules can be used without the live EEG stream.
 
 ## Simple use case
