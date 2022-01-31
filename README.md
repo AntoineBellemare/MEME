@@ -13,6 +13,8 @@ Insert the __EEG_stream__ module in any Ableton track and set the UDP port accor
 
 ![EEG_stream_clean](https://user-images.githubusercontent.com/49297774/151845478-ed5d5aa7-0a81-47cf-8626-7b2f2ce7f4d5.png | width=100)
 
+<img src="https://user-images.githubusercontent.com/49297774/151845478-ed5d5aa7-0a81-47cf-8626-7b2f2ce7f4d5.png" width="100">
+
 Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track and choose the **feature** that you want **to map on any control parameter**
 
 ![EEG_mapper_clean](https://user-images.githubusercontent.com/49297774/151845504-3863b0b5-da4d-46d0-bc55-561b9fbe43be.png)
