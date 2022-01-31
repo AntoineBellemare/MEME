@@ -11,26 +11,25 @@ The modulation modules can be used without the live EEG stream.
 
 Insert the __EEG_stream__ module in any Ableton track and set the UDP port accordingly to your EEG_synth patch. The light will flash if data is received.
 
-![EEG_stream](https://user-images.githubusercontent.com/49297774/151105209-fd701256-cc9b-4d87-8d34-5ba7588c75bf.png)
+![EEG_stream_clean](https://user-images.githubusercontent.com/49297774/151845478-ed5d5aa7-0a81-47cf-8626-7b2f2ce7f4d5.png)
 
 Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track and choose the **feature** that you want **to map on any control parameter**
 
-![EEG_mapper](https://user-images.githubusercontent.com/49297774/151104876-2b1f099b-cba5-4aca-a236-c1e4cee83a6b.png)
+![EEG_mapper_clean](https://user-images.githubusercontent.com/49297774/151845504-3863b0b5-da4d-46d0-bc55-561b9fbe43be.png)
 
-![EEG_mapper_multi](https://user-images.githubusercontent.com/49297774/151104881-e60cfab6-2d3e-419c-8259-fdd758731785.png)
-
+![EEG_mapper_multi_clean](https://user-images.githubusercontent.com/49297774/151845514-2d0bad5b-b66e-4a45-8597-d5ae684529dd.png)
 
 ## EEG_playback module
 
 The **EEG_playback** module can replace the EEG_stream module when pre-recorded signals are used. When signal is streamed, all the other modules are able to receive the data they are expected.
 
-![EEG_playback](https://user-images.githubusercontent.com/49297774/150669553-0d1533ef-7ea6-4e1e-9355-2a4efa24a73c.png)
+![EEG_playback_clean](https://user-images.githubusercontent.com/49297774/151845530-73d9de6e-d0eb-43ab-812f-b5784a88bf41.png)
 
 ## Cognitive accumulator/trigger
 
 The **cognitive accumulator/trigger** is a module designed to **trigger events such as audio clips, or musical scenes**. The trigger happens when a specific EEG feature reaches a chosen threshold and stays above it for a certain amount of time, indicating that ‘’a state’’ has been detected. This module allows to navigate between musical scenes based on the detection of cognitive states. 
 
-![image](https://user-images.githubusercontent.com/49297774/150669653-80abe0b5-b1c8-497e-ab6a-cf603d51866a.png)
+![cognitive_accum](https://user-images.githubusercontent.com/49297774/151845549-7886d0d9-c4ca-4b3c-a5c6-8220d1152fac.png)
 
 ## Quantizer-Smoother-Pitchbend
 
@@ -50,11 +49,11 @@ They allow to use **dynamical microtonal tunings** and **euclidean rhythms** der
 
 The **Tuning Foraging** module allows **flexible control over biotunings**, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
 
-![Tuning_foraging](https://user-images.githubusercontent.com/49297774/151102421-7a62b5f3-9b08-48af-b410-2398b50945fa.png)
+![Tuning_foraging_clean](https://user-images.githubusercontent.com/49297774/151845582-93dc7509-00aa-4430-876f-2fa14d691c2a.png)
 
 The **MIDI_microtonality** module allows to **load tuning files** from .scl and .txt, as well as **write new tunings** directly in the module. It can also be coupled with the Tuning Foraging module to **receive tunings dynamically from the Biotuner**.
 
-![MIDI_microtonality](https://user-images.githubusercontent.com/49297774/151101907-48febc60-ceb0-434a-a006-2d706b39c1c1.png)
+![MIDI_microtonality_clean](https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png)
 
 
 
