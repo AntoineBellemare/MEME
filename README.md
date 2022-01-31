@@ -32,6 +32,13 @@ The **cognitive accumulator/trigger** is a module designed to **trigger events s
 
 ![image](https://user-images.githubusercontent.com/49297774/150669653-80abe0b5-b1c8-497e-ab6a-cf603d51866a.png)
 
+## Quantizer-Smoother-Pitchbend
+
+The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-hold. It whether computes the average or take a snapshot of an incoming each specified amount of time. The ramptime value indicates the time necessary to ramp to the next value. When _pitch_ is set to _ON_, output values are directly routed to the pitchbend cc value. The quantize option allows to constraint the output value according to predetermined tunings. The Biotuner option allows to use dynamical biotunings as a reference tuning for pitchbend.   
+
+![quantizer-smoother](https://user-images.githubusercontent.com/49297774/151844355-782082f3-3d1f-4c7a-9630-c87409c01cea.png)
+
+
 ## Brain decoder
 
 The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''feature engineering'' button, the choice of feature can be made.
