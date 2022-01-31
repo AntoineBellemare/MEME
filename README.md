@@ -15,9 +15,9 @@ Insert the __EEG_stream__ module in any Ableton track and set the UDP port accor
 
 Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track and choose the **feature** that you want **to map on any control parameter**
 
-<img src="https://user-images.githubusercontent.com/49297774/151845504-3863b0b5-da4d-46d0-bc55-561b9fbe43be.png" width="250">
+<img src="https://user-images.githubusercontent.com/49297774/151845504-3863b0b5-da4d-46d0-bc55-561b9fbe43be.png" width="500">
 
-<img src="https://user-images.githubusercontent.com/49297774/151845514-2d0bad5b-b66e-4a45-8597-d5ae684529dd.png" width="250">
+<img src="https://user-images.githubusercontent.com/49297774/151845514-2d0bad5b-b66e-4a45-8597-d5ae684529dd.png" width="750">
 
 ## EEG_playback module
 
@@ -29,8 +29,7 @@ The **EEG_playback** module can replace the EEG_stream module when pre-recorded 
 
 The **cognitive accumulator/trigger** is a module designed to **trigger events such as audio clips, or musical scenes**. The trigger happens when a specific EEG feature reaches a chosen threshold and stays above it for a certain amount of time, indicating that ‘’a state’’ has been detected. This module allows to navigate between musical scenes based on the detection of cognitive states. 
 
-![cognitive_accum](https://user-images.githubusercontent.com/49297774/151845549-7886d0d9-c4ca-4b3c-a5c6-8220d1152fac.png)
-<img src="https://user-images.githubusercontent.com/49297774/151845530-73d9de6e-d0eb-43ab-812f-b5784a88bf41.png" width="250">
+<img src="https://user-images.githubusercontent.com/49297774/151845549-7886d0d9-c4ca-4b3c-a5c6-8220d1152fac.png" width="500">
 
 ## Quantizer-Smoother-Pitchbend
 
@@ -49,11 +48,11 @@ They allow to use **dynamical microtonal tunings** and **euclidean rhythms** der
 
 The **Tuning Foraging** module allows **flexible control over biotunings**, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
 
-<img src="https://user-images.githubusercontent.com/49297774/151845582-93dc7509-00aa-4430-876f-2fa14d691c2a.png" width="250">
+<img src="https://user-images.githubusercontent.com/49297774/151845582-93dc7509-00aa-4430-876f-2fa14d691c2a.png" width="500">
 
 The **MIDI_microtonality** module allows to **load tuning files** from .scl and .txt, as well as **write new tunings** directly in the module. It can also be coupled with the Tuning Foraging module to **receive tunings dynamically from the Biotuner**.
 
-<img src="https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png" width="250">
+<img src="https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png" width="500">
 
 
 
