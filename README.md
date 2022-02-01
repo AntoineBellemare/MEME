@@ -19,25 +19,29 @@ Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track an
 
 <img src="https://user-images.githubusercontent.com/49297774/151845514-2d0bad5b-b66e-4a45-8597-d5ae684529dd.png" width="750">
 
-## EEG_playback module
+## Utilities
 
 The **EEG_playback** module can replace the EEG_stream module when pre-recorded signals are used. When signal is streamed, all the other modules are able to receive the data they are expected.
 
 <img src="https://user-images.githubusercontent.com/49297774/151845530-73d9de6e-d0eb-43ab-812f-b5784a88bf41.png" width="250">
 
-## Cognitive accumulator/trigger
+## Modulator modules
+
+#### Cognitive accumulator/trigger
 
 The **cognitive accumulator/trigger** is a module designed to **trigger events such as audio clips, or musical scenes**. The trigger happens when a specific EEG feature reaches a chosen threshold and stays above it for a certain amount of time, indicating that ‘’a state’’ has been detected. This module allows to navigate between musical scenes based on the detection of cognitive states. 
 
 <img src="https://user-images.githubusercontent.com/49297774/151845549-7886d0d9-c4ca-4b3c-a5c6-8220d1152fac.png" width="500">
 
-## Quantizer-Smoother-Pitchbend
+#### Quantizer-Smoother-Pitchbend
 
 The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-hold. It whether computes the average or take a snapshot of an incoming each specified amount of time. The ramptime value indicates the time necessary to ramp to the next value. When _pitch_ is set to _ON_, output values are directly routed to the pitchbend cc value. The quantize option allows to constraint the output value according to predetermined tunings. The Biotuner option allows to use dynamical biotunings as a reference tuning for pitchbend.   
 
 <img src="https://user-images.githubusercontent.com/49297774/151844355-782082f3-3d1f-4c7a-9630-c87409c01cea.png" width="500">
 
-## Brain decoder
+## Machine learning modules
+
+#### Brain decoder
 
 The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''feature engineering'' button, the choice of feature can be made.
 
