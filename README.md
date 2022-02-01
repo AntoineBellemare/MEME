@@ -54,5 +54,9 @@ The **MIDI_microtonality** module allows to **load tuning files** from .scl and 
 
 <img src="https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png" width="500">
 
+The **Biotuner-Euclid** module produces euclidian polyrhythms based on EEG signal harmonic ratios. It can easily be coupled with _EEG_mapper_ module by mapping EEG features on sustains, rate of change or complexity values. It takes MIDI notes as input, and can therefore be integrated in an instrument rack with the _MIDI_microtonality_ module to use bioharmonies in both frequency and time domains. 
+
+<img src="https://user-images.githubusercontent.com/49297774/151903162-c7d53f09-d798-43b5-84b1-bb8ab0bcde5e.png" width="500">
+
 
 
