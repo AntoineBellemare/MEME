@@ -19,13 +19,13 @@ Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track an
 
 <img src="https://user-images.githubusercontent.com/49297774/151845514-2d0bad5b-b66e-4a45-8597-d5ae684529dd.png" width="750">
 
-## Utilities
+## UTILITIES
 
 The **EEG_playback** module can replace the EEG_stream module when pre-recorded signals are used. When signal is streamed, all the other modules are able to receive the data they are expected.
 
 <img src="https://user-images.githubusercontent.com/49297774/151845530-73d9de6e-d0eb-43ab-812f-b5784a88bf41.png" width="250">
 
-## Modulator modules
+## MODULATOR MODULES
 
 ### Cognitive accumulator/trigger
 
