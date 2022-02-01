@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/49297774/151102306-3c10e827-45d8-4783-a560-400613e6db8f.png" width="350">
 </p>
 
-Bundle of **Max4Live devices** using **EEG signal** for **dynamical audio-visual composition**. It is designed to provide <p style='color:red'>**flexible mapping of real-time EEG signals for digital artists.**</p>.
+Bundle of **Max4Live devices** using **EEG signal** for **dynamical audio-visual composition**. It is designed to provide <p style='color:red'>flexible mapping of real-time EEG signals for digital artists.</p>.
 
 This bundle is primarilly intended to be coupled with the use of EEG_synth (https://github.com/hyruuk/eegsynth/tree/dev_cbc) and Muse headset.
 The _EEG_stream_ module allows to receive the OSC messages and stream it to any other module that requires it.
