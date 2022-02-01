@@ -27,13 +27,13 @@ The **EEG_playback** module can replace the EEG_stream module when pre-recorded 
 
 ## Modulator modules
 
-#### Cognitive accumulator/trigger
+### Cognitive accumulator/trigger
 
 The **cognitive accumulator/trigger** is a module designed to **trigger events such as audio clips, or musical scenes**. The trigger happens when a specific EEG feature reaches a chosen threshold and stays above it for a certain amount of time, indicating that ‘’a state’’ has been detected. This module allows to navigate between musical scenes based on the detection of cognitive states. 
 
 <img src="https://user-images.githubusercontent.com/49297774/151845549-7886d0d9-c4ca-4b3c-a5c6-8220d1152fac.png" width="500">
 
-#### Quantizer-Smoother-Pitchbend
+### Quantizer-Smoother-Pitchbend
 
 The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-hold. It whether computes the average or take a snapshot of an incoming each specified amount of time. The ramptime value indicates the time necessary to ramp to the next value. When _pitch_ is set to _ON_, output values are directly routed to the pitchbend cc value. The quantize option allows to constraint the output value according to predetermined tunings. The Biotuner option allows to use dynamical biotunings as a reference tuning for pitchbend.   
 
@@ -41,7 +41,7 @@ The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-h
 
 ## Machine learning modules
 
-#### Brain decoder
+### Brain decoder
 
 The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''feature engineering'' button, the choice of feature can be made.
 
@@ -50,15 +50,21 @@ The **Brain decoder** module uses **supervised machine learning classifiers**. B
 These modules interface the Biotuner Python toolbox (https://github.com/antoinebellemare/biotuner)
 They allow to use **dynamical microtonal tunings** and **euclidean rhythms** derived from EEG signals for realtime musical composition.
 
+### Tuning Foraging
+
 The **Tuning Foraging** module allows **flexible control over biotunings**, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
 
 <img src="https://user-images.githubusercontent.com/49297774/151845582-93dc7509-00aa-4430-876f-2fa14d691c2a.png" width="500">
+
+### MIDI_microtonality
 
 The **MIDI_microtonality** module allows to **load tuning files** from .scl and .txt, as well as **write new tunings** directly in the module. It can also be coupled with the Tuning Foraging module to **receive tunings dynamically from the Biotuner**.
 
 <img src="https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png" width="500">
 
-The **Biotuner-Euclid** module produces euclidian polyrhythms based on EEG signal harmonic ratios. It can easily be coupled with _EEG_mapper_ module by mapping EEG features on sustains, rate of change or complexity values. It takes MIDI notes as input, and can therefore be integrated in an instrument rack with the _MIDI_microtonality_ module to use bioharmonies in both frequency and time domains. 
+### Biotuner-Euclid
+
+The **Biotuner-Euclid** module produces euclidian polyrhythms based on EEG signal harmonic ratios. It can easily be coupled with _EEG_mapper_ module by mapping EEG features on sustains, rate of change or complexity values. It takes MIDI notes as input, and can therefore be integrated in an instrument rack with the _MIDI_microtonality_ and _Tuning_foraging_ modules to use bioharmonies in frequency and time domains simultaneously. 
 
 <img src="https://user-images.githubusercontent.com/49297774/151903162-c7d53f09-d798-43b5-84b1-bb8ab0bcde5e.png" width="900">
 
