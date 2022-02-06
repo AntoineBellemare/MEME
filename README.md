@@ -51,7 +51,7 @@ The **Brain decoder** module uses **supervised machine learning classifiers**. B
 
 The **Fuzzy Adaptive Resonance Neural Network** module uses **unsupervised machine learning** in the form of **self-organizing neural networks** that allow to perform **realtime clustering**. By clicking on the ''features'' button, the choice of feature can be made.
 
-<img src="https://user-images.githubusercontent.com/49297774/152665319-aa3f7076-af02-47ad-8c3f-f349a5f6e24b.png" width="500">
+<img src="https://user-images.githubusercontent.com/49297774/152665319-aa3f7076-af02-47ad-8c3f-f349a5f6e24b.png" width="750">
 
 ## Biotuner modules
 
