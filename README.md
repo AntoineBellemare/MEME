@@ -45,7 +45,13 @@ The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-h
 
 ### Brain decoder
 
-The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''feature engineering'' button, the choice of feature can be made.
+The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''features'' button, the choice of feature can be made.
+
+### Fuzzy Adaptive Resonance Neural Network
+
+The **Fuzzy Adaptive Resonance Neural Network** module uses **unsupervised machine learning** in the form of **self-organizing neural networks** that allow to perform **realtime clustering**. By clicking on the ''features'' button, the choice of feature can be made.
+
+<img src="https://user-images.githubusercontent.com/49297774/152665319-aa3f7076-af02-47ad-8c3f-f349a5f6e24b.png" width="500">
 
 ## Biotuner modules
 
