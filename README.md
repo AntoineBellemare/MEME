@@ -45,7 +45,7 @@ The **quantizer-smoother-pitchbend** works as both a smoother and a sample-and-h
 
 The **thresholder** is a module designed to **trigger MIDI notes** when a specific EEG feature crosses a predetermined threshold.
 
-<img src="https://user-images.githubusercontent.com/49297774/153027660-8c354a89-a90f-41f6-9c4e-9b120791f3ad.png" width="500">
+<img src="https://user-images.githubusercontent.com/49297774/153027660-8c354a89-a90f-41f6-9c4e-9b120791f3ad.png" width="250">
 
 ## Machine learning modules
 
