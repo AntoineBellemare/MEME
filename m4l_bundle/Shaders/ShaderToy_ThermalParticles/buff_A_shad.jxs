@@ -1,0 +1,80 @@
+<jittershader name="default">
+	<description> Default Slab </description>
+	
+	<param name="iChannel0" type="int" default="0" />
+	<param name="iChannel1" type="int" default="1" />
+	<param name="iResolution" type="vec2" state="VIEWPORT" />
+	<param name="iMouse"    type="vec3" default="0.0 0.0 0.0" />
+	<param name="iFrame"    type="int"  default="0" />
+	
+	<language name="glsl" version="1.2">
+	
+		<bind param="iChannel0" program="fp" />	
+		<bind param="iChannel1" program="fp" />	
+		<bind param="iResolution" program="fp" />
+		<bind param="iMouse"    program="fp" />
+		<bind param="iFrame"   program="fp" />
+			
+		<program name="vp" type="vertex">
+<![CDATA[
+
+varying vec2 texcoord;
+
+void main (void)
+{
+    gl_Position = ftransform();
+    texcoord    = vec2(gl_TextureMatrix[0] * gl_MultiTexCoord0);
+}
+]]>		
+		</program>
+		<program name="fp" type="fragment">
+<![CDATA[
+// FRAGMENT SHADER
+
+varying vec2 texcoord;
+
+uniform sampler2DRect iChannel0;
+uniform sampler2DRect iChannel1;
+
+uniform vec2 iResolution;
+uniform vec3 iMouse;
+uniform int iFrame;
+
+vec2 R;
+
+vec4 T ( vec2 U ) {return texture2DRect(iChannel0,U);}
+vec4 P ( vec2 U ) {return texture2DRect(iChannel1,U);}
+	
+float X (vec2 U, vec2 u, inout vec4 Q, in vec2 r) {
+    vec2 V = U + r, v = T(V).xy;
+    vec4 t = T (V-v);
+    Q.xy -= 0.25*r*(t.z-Q.z+t.w-Q.w); 
+    return (0.5*(length(r-v+u)-length(r+v-u))+t.z);
+}
+
+void main(void)
+{   
+	vec4 Q = vec4(0.0);
+	vec2 U = texcoord;
+	
+	R = iResolution.xy;
+ 	vec2 u = T(U).xy, e = vec2(1,0);
+ 	Q = T(U-u);
+ 	vec4 p = P(U-u);
+ 	Q.z = 0.25*(X(U,u,Q,e)+X(U,u,Q,-e)+X(U,u,Q,e.yx)+X(U,u,Q,-e.yx));
+	float r = smoothstep(6.,0.,length(U-abs(p.xy)));
+ 	Q.w =  sign(p.x)*r;
+ 	Q.xy = mix(Q.xy,.02*p.zw,r);
+ 	Q.xy *= 0.9;
+ 	Q.z  *= 0.995;
+ 	if (iMouse.z > 0.) Q.w = mix(Q.w,4.,exp(-.1*dot(U-iMouse.xy,U-iMouse.xy)));
+ 	if (iFrame < 1) Q = vec4(0);
+    if (U.x < 1.||U.y < 1.||R.x-U.x < 1.||R.y-U.y < 1.) Q.xy = vec2(0);
+
+	gl_FragColor = Q;
+}
+
+]]>
+		</program>
+	</language>
+</jittershader>

@@ -12,8 +12,8 @@
 	<param name="iChannel2" type="int" default="3" />
     <param name="iChannel3" type="int" default="4" />
 	<param name="fog_dyn" type="float" default="0.11" />
-	<param name="SYMETRY" type="float" default="4." />
-	<param name="BACKGROUND" type="float" default="0.5" />
+	<param name="RAY" type="float" default="0.9" />
+	<param name="DEFINITION" type="float" default="0.05" />
 	<param name="ZOOM" type="float" default="1.5" />
 	<param name="DENSITY" type="float" default="0.5" />
 	<param name="BW" type="float" default="0.02" />
@@ -32,8 +32,8 @@
 		<bind param="iChannel2" program="fp" />
         <bind param="iChannel3" program="fp" />
 		<bind param="fog_dyn" program="fp" />
-		<bind param="SYMETRY" program="fp" />
-		<bind param="BACKGROUND" program="fp" />
+		<bind param="RAY" program="fp" />
+		<bind param="DEFINITION" program="fp" />
 		<bind param="ZOOM" program="fp" />
 		<bind param="DENSITY" program="fp" />
 		<bind param="BW" program="fp" />
@@ -74,8 +74,8 @@
 			uniform sampler2D iChannel2;
             uniform sampler2D iChannel3;
 			uniform float fog_dyn;
-			uniform float SYMETRY;
-			uniform float BACKGROUND;
+			uniform float RAY;
+			uniform float DEFINITION;
 			uniform float ZOOM;
 			uniform float DENSITY;
 			uniform float BW;
@@ -121,15 +121,15 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 */
 
 // Set this to change detail level. [1 - 10] is a good range.
-#define N 23    	// number of sources
+#define N 19    	// number of sources
 
 int MODE = 5;		// source distrib
-float POW = 1.;		// fading with distance
+float POW = 1.0;		// fading with distance
 
 
-const float k = 2.*3.14159/.04,  // 2 Pi / wavelenght
-	        c = 0.1;			 // wavespeed
-
+const float c = 10.1;   // 2 Pi / wavelenght
+	        			 // wavespeed
+//k = 2.*3.14159/DEFINITION,
 #define t iTime
 
 bool keyToggle(int ascii) {
@@ -169,16 +169,16 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		if 		(MODE==1) { P = vec2(x,-.9); x+= stp;}
 		else if (MODE==2) { P = vec2(x,-.9); x+= stp*(1.+srnd(float(i))); }
 		else if (MODE==3) { P = .99*vec2(sin(4.*xt),-cos(4.*xt)); xt+= stp;}
-		else if (MODE==4) { P = .99*vec2(sin(4.*xt),-cos(4.*xt)); xt+= stp*(1.+.7*srnd(float(i)));}
+		else if (MODE==4) { P = RAY*vec2(sin(4.*xt),-cos(4.*xt)); xt+= stp*(1.+.7*srnd(float(i)));}
 		else if (MODE==5) { P = vec2(2.*x,y); x+= 1.4*sqrt(stp); 
 						    if (x>.7) { x=-.7; y+=sqrt(1.4*stp);} }
 		// the key: wave's phase pixel to source calibrated by wave phase mouse to source
 		float dm = length(mouse-P),	phim = dm, //   -c*t,
 			  d  = length(uv-P),	phi  = d -c*t;
-		Phi[i] = k*(phi-phim);  // stores wave attributes
+		Phi[i] = (2.*3.14159/DEFINITION)*(phi-phim);  // stores wave attributes
 		D2[i] = pow(d,POW);
 
-		if (d<0.01) { fragColor = vec4(0,0,1,0); return; }
+		if (d<0.001) { fragColor = vec4(0,0,1,0); return; }
 	}
 	
 	// --- combines waves or energy

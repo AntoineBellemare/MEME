@@ -148,7 +148,7 @@
 
 // Variables used to identify the objects. In this case, there are just two - the biotubes and
 // the tunnel walls.
-float objID = 0.; // Biotubes: 0, Tunnel walls: 1.
+float objID = 0; // Biotubes: 0, Tunnel walls: 1.
 float saveID = 0.;
 
 
@@ -276,7 +276,8 @@ float bumpSurf3D( in vec3 p){
     	float sf = cellTile(p*ROCK_DENSITY); 
     	float vor = cellTile(p*1.5);
     
-        bmp = sf*.66 + (vor*.94 + noi*.06)*.34;
+        bmp = sf*.66 + (vor*.24 + noi*.06)*.34;
+		
     }
     else {
         p/=3.;//
@@ -386,7 +387,7 @@ float softShadow(vec3 ro, vec3 rd, float start, float end, float k){
 float calculateAO( in vec3 p, in vec3 n )
 {
 	float ao = 0.0, l;
-    const float maxDist = 4.;
+    const float maxDist = 1.;
 	const float nbIte = 6.0;
 	//const float falloff = 0.9;
     for( float i=1.; i< nbIte+.5; i++ ){

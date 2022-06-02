@@ -1,0 +1,91 @@
+<jittershader name="default">
+	<description> Default Slab </description>
+	<param name="iChannel0" type="int" default="0" />
+	<param name="iChannel1" type="int" default="1" />
+	<param name="iResolution" type="vec2" state="VIEWPORT" />
+	<param name="iMouse"    type="vec3" default="0.0 0.0 0.0" />
+	<param name="iFrame"    type="int"  default="0" />
+	
+	<language name="glsl" version="1.2">
+	
+		<bind param="iChannel0" program="fp" />	
+		<bind param="iChannel1" program="fp" />	
+		<bind param="iResolution" program="fp" />
+		<bind param="iMouse"    program="fp" />
+		<bind param="iFrame"   program="fp" />
+			
+		<program name="vp" type="vertex">
+<![CDATA[
+
+varying vec2 texcoord;
+
+void main (void)
+{
+    gl_Position = ftransform();
+    texcoord    = vec2(gl_TextureMatrix[0] * gl_MultiTexCoord0);
+}
+]]>		
+		</program>
+		<program name="fp" type="fragment">
+<![CDATA[
+
+varying vec2 texcoord;
+
+uniform sampler2DRect iChannel0;
+uniform sampler2DRect iChannel1;
+
+uniform vec2 iResolution;
+uniform vec3 iMouse;
+uniform int iFrame;
+
+// Voronoi based particle tracking
+
+vec2 R;
+float N;
+vec4 T ( vec2 U ) {return texture2DRect(iChannel0,U);}//sample fluid
+vec4 P ( vec2 U ) {return texture2DRect(iChannel1,U);}//sample particles
+void swap (vec2 U, inout vec4 Q, vec2 u) {
+    vec4 p = P(U+u);
+    float dl = length(U-abs(Q.xy)) - length(U-abs(p.xy));
+    Q = mix(Q,p,float(dl>=0.));
+}
+void main( void )
+{   
+	vec2 U = texcoord;
+	vec2 R = iResolution.xy;
+ 	vec4 Q = P(U);
+
+ 	swap(U,Q,vec2(1,0));
+ 	swap(U,Q,vec2(0,1));
+ 	swap(U,Q,vec2(0,-1));
+ 	swap(U,Q,vec2(-1,0));
+ 	swap(U,Q,vec2(3,0));
+ 	swap(U,Q,vec2(0,3));
+ 	swap(U,Q,vec2(0,-3));
+ 	swap(U,Q,vec2(-3,0));
+ 	vec4 t = T(Q.xy);
+ 	vec2 e = vec2(2,0);
+ 	vec4 
+        a = T(Q.xy+e.xy),
+        b = T(Q.xy+e.yx),
+        c = T(Q.xy-e.xy),
+        d = T(Q.xy-e.yx);
+ 	Q.zw = Q.zw*.999-vec2(a.z-c.z,b.z-d.z)-5.*vec2(a.w-c.w,b.w-d.w);
+ 	Q.xy = sign(Q.xy)*(abs(Q.xy+.02*Q.zw));
+ 	
+ 	if (iFrame < 1 && U.x>20.&&R.x-U.x>20.&&U.y>20.&&R.y-U.y>20.) {
+       Q = vec4(floor(U/10.+0.5)*10.,0,0);
+    }
+ 	
+ 	if (abs(Q.x)<10.)Q.z=0.9*abs(Q.z);
+ 	if (R.x-abs(Q.x)<10.)Q.z=-0.9*abs(Q.z);
+ 	if (abs(Q.y)<10.)Q.w=0.9*abs(Q.w);
+ 	if (R.y-abs(Q.y)<10.)Q.w=-0.9*abs(Q.w);
+
+	gl_FragColor = Q;
+}
+
+]]>
+		</program>
+	</language>
+</jittershader>
