@@ -24,6 +24,9 @@ Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track an
 ## Utilities
 
 The **EEG_playback** module can replace the EEG_stream module when pre-recorded signals are used. When signal is streamed, all the other modules are able to receive the data they are expected.
+You can find data examples recorded using a Muse headband in the */data_examples* folder.
+To open a datafile, you need to press on the load button and select the file (you will be asked to select the file twice; this behavior needs to be fixed).
+Then, the speed parameter needs to be manipulated to control how fast the data is read. With the present files, you can set the speed to 1.15ms to reflect the original datastream sampling frequency.
 
 <img src="https://user-images.githubusercontent.com/49297774/151845530-73d9de6e-d0eb-43ab-812f-b5784a88bf41.png" width="250">
 
