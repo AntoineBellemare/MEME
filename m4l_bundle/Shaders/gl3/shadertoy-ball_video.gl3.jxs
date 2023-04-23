@@ -1,6 +1,7 @@
 <jittershader name="stripes">
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX" />
+    <param name="textureMatrix1" type="mat4" state="TEXTURE1_MATRIX" />
     <param name="position" type="vec3" state="POSITION" />
     <param name="texcoord" type="vec2" state="TEXCOORD" />
     <param name="iResolution" type="vec2" state="TEXDIM0" />
@@ -19,9 +20,6 @@
 	<param name="CUTS" type="float" default="3.14" />
 	<param name="ZOOM" type="float" default="2.5" />
 	<param name="FRAGMENTS" type="float" default="0.1" />
-	<param name="red" type="float" default="1." />
-	<param name="green" type="flaot" default="1." />
-	<param name="blue" type="float" default="1." />
 	<param name="red_neurons" type="float" default="1." />
 	<param name="green_neurons" type="flaot" default="1." />
 	<param name="blue_neurons" type="float" default="1." />
@@ -38,9 +36,11 @@
 	<param name="background_blending" type="float" default="0.0" />
 	<param name="fog_strength" type="float" default="0.5" />
 	<param name="neuron_blending" type="float" default="0.5" />
+	<param name="warping" type="float" default="0.5" />
     <language name="glsl" version="1.5">
         <bind param="modelViewProjectionMatrix" program="vp" />
         <bind param="textureMatrix0" program="vp" />
+        <bind param="textureMatrix1" program="vp" />
         <bind param="position" program="vp" />
         <bind param="texcoord" program="vp" />
         <bind param="iTime" program="fp" />
@@ -59,9 +59,6 @@
 		<bind param="CUTS" program="fp" />
 		<bind param="ZOOM" program="fp" />
 		<bind param="FRAGMENTS" program="fp" />
-		<bind param="red" program="fp" />
-		<bind param="green" program="fp" />
-		<bind param="blue" program="fp" />
 		<bind param="red_neurons" program="fp" />
 		<bind param="green_neurons" program="fp" />
 		<bind param="blue_neurons" program="fp" />
@@ -78,6 +75,7 @@
 		<bind param="background_blending" program="fp" />
 		<bind param="fog_strength" program="fp" />
 		<bind param="neuron_blending" program="fp" />
+		<bind param="warping" program="fp" />
 		<program name="vp" type="vertex"  >
 		<![CDATA[
 			#version 330 core
@@ -86,14 +84,17 @@
 			in vec2 texcoord;
 			out jit_PerVertex {
 				vec2 texcoord;
+				vec2 movieTexcoord;
 			} jit_out;
 			uniform mat4 modelViewProjectionMatrix;
 			uniform mat4 textureMatrix0;
+			uniform mat4 textureMatrix1;
 			
 			
 			void main(void) {
 				gl_Position = modelViewProjectionMatrix*vec4(position, 1.);
 				jit_out.texcoord = vec2(textureMatrix0*vec4(texcoord, 0., 1.));
+				jit_out.movieTexcoord = vec2(textureMatrix1 * vec4(texcoord, 0.0, 1.0));
 			}
 		]]>
 		</program>      
@@ -103,6 +104,7 @@
             
             in jit_PerVertex {
                 vec2 texcoord;
+				vec2 movieTexcoord;
             } jit_in;
             out vec4 outColor;
 
@@ -130,9 +132,6 @@
 			uniform float sharpness_neurons;
 			uniform float spreading_neurons;
 			uniform float zoom_neurons;
-			uniform float red;
-			uniform float green;
-			uniform float blue;
 			uniform float red_neurons2;
 			uniform float green_neurons2;
 			uniform float blue_neurons2;
@@ -142,6 +141,8 @@
 			uniform float background_blending;
 			uniform float fog_strength;
 			uniform float neuron_blending;
+			uniform sampler2D movieTexture;
+			uniform float warping;
 
 // <<<<<<<<< START SHADERTOY PASTE
 
@@ -446,14 +447,9 @@ float IntersectSphereAndRay(vec3 pos, float radius, vec3 posA, vec3 posB, out ve
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-	vec3 wet_neurons_smooth = wet_neurons2(fragColor, fragCoord);
-	vec3 wet_neurons_col = mix(wet_neurons(fragColor, fragCoord), wet_neurons_smooth, neuron_blending);
-
-	
     localTime = iTime - 1.6;
 	// ---------------- First, set up the camera rays for ray marching ----------------
 	vec2 uv = fragCoord.xy/iResolution.xy * 2.0 - 1.0;
-	uv += wet_neurons_smooth.xy*(1-background_blending);
 
 	// Camera up vector.
 	vec3 camUp=vec3(0,1,0); // vuv
@@ -569,7 +565,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		vec3 rp = RotateY(pos, pos.y*0.4 - cos(localTime)*0.4);
         float n = noise(rp*4.0) + noise(rp*8.0) + noise(rp*16.0) + noise(rp*32.0);
         n = saturate(n*0.25 * 0.95 + 0.05);
-        vec3 texColor = vec3(red,green,blue)*n;
+        vec3 texColor = vec3(0.2,0.3,0.3)*n;
 
         // fade to reddish texture on outside
         texColor += vec3(0.99, 0.21, 0.213) * clamp(length(pos)-4.0, 0.0, 0.4);
@@ -607,12 +603,13 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     // fade the sky color, multiply sunset dimming
     vec3 sky = mix(vec3(1.0, 0.95, 0.85), vec3(0.2,0.5,0.95), pow(saturate(relVec.y), 0.7))*0.95;
     // add the sun
-    sky += GetSunColorSmall(relVec, sunDir);// + vec3(0.1, 0.1, 0.1);	
-	
-	vec3 background_col = mix(max(vec3(0), wet_neurons_col), sky, background_blending*0.7);
-	
-	finalColor = mix(finalColor, background_col, (1-background_blending*hitObj)) + finalColor;
-	
+    sky += GetSunColorSmall(relVec, sunDir);// + vec3(0.1, 0.1, 0.1);
+
+
+	vec3 neurons_col = mix(wet_neurons(fragColor, fragCoord), wet_neurons2(fragColor, fragCoord), neuron_blending);
+
+	vec3 videoColor = texture(movieTexture, jit_in.movieTexcoord.st+neurons_col.xy*warping).xyz;
+	finalColor = videoColor+max(vec3(0), neurons_col) * background_blending;
 
     // vignette?
     finalColor *= vec3(1.0) * saturate(1.0 - length(uv/2.5));
