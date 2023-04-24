@@ -87,61 +87,8 @@
 			uniform float ROCK_LIGHT;
 			uniform float AMBIANT_LIGHT;
 
-// <<<<<<<<< START SHADERTOY PASTE
 
-			// Protean clouds by nimitz (twitter: @stormoid)
-// https://www.shadertoy.com/view/3l23Rh
-// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
-// Contact the author for other licensing options
 
-/*
-	Technical details:
-
-	The main volume noise is generated from a deformed periodic grid, which can produce
-	a large range of noise-like patterns at very cheap evalutation cost. Allowing for multiple
-	fetches of volume gradient computation for improved lighting.
-
-	To further accelerate marching, since the volume is smooth, more than half the the density
-	information isn't used to rendering or shading but only as an underlying volume	distance to 
-	determine dynamic step size, by carefully selecting an equation	(polynomial for speed) to 
-	step as a function of overall density (not necessarialy rendered) the visual results can be 
-	the	same as a naive implementation with ~40% increase in rendering performance.
-
-	Since the dynamic marching step size is even less uniform due to steps not being rendered at all
-	the fog is evaluated as the difference of the fog integral at each rendered step.
-
-*/
-
-/*
-    Biomine
-    -------
-    
-    A biocooling system for a futuristic, off-world mine... or a feeding mechanisn for an alien 
-	hatchery? I wasn't really sure what I was creating when I started, and I'm still not. :) I at 
-	least wanted to create the sense that the tubes were pumping some form of biomatter around 
-	without having to resort to full reflective and refractive passes... I kind of got there. :)
-
-	All things considered, there's not a lot to this. Combine a couple of gyroid surfaces, ID them,
-	then add their respective material properties. The scene is simple to create, and explained in
-	the distance function. There's also some function based, 2nd order cellular bump mapping, for 
-	anyone interested.
-
-	The fluid pumped through the tubes was created by indexing the reflected and refracted rays 
-	into a basic environment mapping function. Not accurate, but simple, effective and way cheaper
-	than the real thing.
-
-	I'd just finished watching some of the Assembly 2016 entries on YouTube, so for better or
-	worse, wanted to produce the scene without the help of any in-house textures.
-
-    Related examples: 
-
-    Cellular Tiling - Shane
-    https://www.shadertoy.com/view/4scXz2
-
-	Cellular Tiled Tunnel - Shane
-	https://www.shadertoy.com/view/MscSDB
-
-*/
 
 // Max ray distance.
 #define FAR 50. 
@@ -175,17 +122,7 @@ float noise3D(in vec3 p){
     return mix(h.x, h.y, p.z); // Range: [0, 1].
 }
 
-////////
-// The cellular tile routine. Draw a few objects (four spheres, in this case) using a minumum
-// blend at various 3D locations on a cubic tile. Make the tile wrappable by ensuring the 
-// objects wrap around the edges. That's it.
-//
-// Believe it or not, you can get away with as few as three spheres. If you sum the total 
-// instruction count here, you'll see that it's way, way lower than 2nd order 3D Voronoi.
-// Not requiring a hash function provides the biggest benefit, but there is also less setup.
-// 
-// The result isn't perfect, but 3D cellular tiles can enable you to put a Voronoi looking 
-// surface layer on a lot of 3D objects for little cost.
+
 //
 float drawSphere(in vec3 p){
   
@@ -234,11 +171,6 @@ float smaxP(float a, float b, float s){
     return mix(b, a, h) + h*(1.0-h)*s;
 }
 
-
-// The distance function. It's a lot simpler than it looks: The biological tubes are just a gyroid lattice.
-// The mine tunnel, is created by takoing the negative space, and bore out the center with a cylinder. The
-// two are combined with a smooth maximum to produce the tunnel with biotube lattice. On top of that, the 
-// whole scene is wrapped around a path and slightly mutated (the first two lines), but that's it.
 
 float map(vec3 p){
   
@@ -349,41 +281,7 @@ float thickness( in vec3 p, in vec3 n, float maxDist, float falloff )
     return clamp( 1.-ao/nbIte, 0., 1.);
 }
 
-/*
-// Shadows.
-float softShadow(vec3 ro, vec3 rd, float start, float end, float k){
 
-    float shade = 1.0;
-    const int maxIterationsShad = 20;
-
-    float dist = start;
-    //float stepDist = end/float(maxIterationsShad);
-
-    // Max shadow iterations - More iterations make nicer shadows, but slow things down.
-    for (int i=0; i<maxIterationsShad; i++){
-    
-        float h = map(ro + rd*dist);
-        shade = min(shade, k*h/dist);
-
-        // +=h, +=clamp( h, 0.01, 0.25 ), +=min( h, 0.1 ), +=stepDist, +=min(h, stepDist*2.), etc.
-        dist += clamp( h, 0.01, 0.25);//min(h, stepDist);
-        
-        // Early exits from accumulative distance function calls tend to be a good thing.
-        if (h<0.001 || dist > end) break; 
-    }
-
-    // Shadow value.
-    return min(max(shade, 0.) + 0.5, 1.0); 
-}
-*/
-
-
-// Ambient occlusion, for that self shadowed look. Based on the original by XT95. I love this 
-// function, and in many cases, it gives really, really nice results. For a better version, and 
-// usage, refer to XT95's examples below:
-//
-// Hemispherical SDF AO - https://www.shadertoy.com/view/4sdGWN
-// Alien Cocoons - https://www.shadertoy.com/view/MsdGz2
 float calculateAO( in vec3 p, in vec3 n )
 {
 	float ao = 0.0, l;
@@ -400,53 +298,7 @@ float calculateAO( in vec3 p, in vec3 n )
     return clamp(1.- ao/nbIte, 0., 1.);
 }
 
-/*
-/////
-// Code block to produce some layers of smokey haze. Not sophisticated at all.
-// If you'd like to see a much more sophisticated version, refer to Nitmitz's
-// Xyptonjtroz example. Incidently, I wrote this off the top of my head, but
-// I did have that example in mind when writing this.
 
-// Hash to return a scalar value from a 3D vector.
-float hash31(vec3 p){ return fract(sin(dot(p, vec3(127.1, 311.7, 74.7)))*43758.5453); }
-
-// Four layers of cheap cell tile noise to produce some subtle mist.
-// Start at the ray origin, then take four samples of noise between it
-// and the surface point. Apply some very simplistic lighting along the 
-// way. It's not particularly well thought out, but it doesn't have to be.
-float getMist(in vec3 ro, in vec3 rd, in vec3 lp, in float t){
-
-    float mist = 0.;
-    ro += rd*t/64.; // Edge the ray a little forward to begin.
-    
-    for (int i = 0; i<8; i++){
-        // Lighting. Technically, a lot of these points would be
-        // shadowed, but we're ignoring that.
-        float sDi = length(lp-ro)/FAR; 
-	    float sAtt = min(1./(1. + sDi*0.25 + sDi*sDi*0.25), 1.);
-	    // Noise layer.
-        //float n = trigNoise3D(ro/2.);//noise3D(ro/2.)*.66 + noise3D(ro/1.)*.34;
-        float n = cellTile(ro/2.);
-        mist += n*sAtt;//trigNoise3D
-        // Advance the starting point towards the hit point.
-        ro += rd*t/8.;
-    }
-    
-    // Add a little noise, then clamp, and we're done.
-    return clamp(mist/4. + hash31(ro)*0.2-0.1, 0., 1.);
-
-}
-*/
-
-//////
-// Simple environment mapping. Pass the reflected vector in and create some
-// colored noise with it. The normal is redundant here, but it can be used
-// to pass into a 3D texture mapping function to produce some interesting
-// environmental reflections.
-//
-// More sophisticated environment mapping:
-// UI easy to integrate - XT95    
-// https://www.shadertoy.com/view/ldKSDm
 vec3 eMap(vec3 rd, vec3 sn){
     
     
@@ -618,9 +470,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
 	
 	}
        
-    // Blend the scene and the background; It's commented out, but you could also integrate some some 
-    // very basic, 8-layered smokey haze.
-    //float mist = getMist(camPos, rd, lightPos, t);
     vec3 sky = vec3(2., .9, .8);//* mix(1., .75, mist);//*(rd.y*.25 + 1.);
     sceneCol = mix(sky, sceneCol, 1./(t*t/FAR/FAR*8. + 1.));
 
@@ -629,16 +478,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
 	
 }
 
-
-
-/** SHADERDATA
-{
-	"title": "fractal pyramid",
-	"description": "",
-	"model": "car"
-}
-*/
-// <<<<<<<<< END SHADERTOY PASTE
 
 			void main(void) {                
 				mainImage(outColor, jit_in.texcoord.st);
