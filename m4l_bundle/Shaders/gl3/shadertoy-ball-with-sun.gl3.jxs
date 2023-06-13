@@ -462,9 +462,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	camLookat=vec3(0,0.0,0);	// vrp
 
     // debugging camera
-    float mx=PI*2.0-0.7 + localTime * 0.123;
-	float my=9.8 - sin(localTime * 0.31)*0.2;//*PI/2.01;
-	camPos += vec3(cos(my)*cos(mx),sin(my),cos(my)*sin(mx))*(9.3); 	// prp
+    float mx=iMouse.x/iResolution.x*PI*2.0-0.7 + localTime * 0.123;
+	float my=-iMouse.y/iResolution.y*10.0 - sin(localTime * 0.31)*0.5;//*PI/2.01;
+	camPos += vec3(cos(my)*cos(mx),sin(my),cos(my)*sin(mx))*(9.2); 	// prp
 
 
     // add randomness to camera for depth-of-field look close up.
@@ -537,39 +537,39 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
         // calculate 2 ambient occlusion values. One for global stuff and one
         // for local stuff - so the green sphere light source can also have ambient.
-        //float ambientS = 1.0;
-        //ambientS *= saturate(DistanceToObject(pos + normal * 0.1).x*10.0);
-        //ambientS *= saturate(DistanceToObject(pos + normal * 0.2).x*5.0);
-        //ambientS *= saturate(DistanceToObject(pos + normal * 0.4).x*2.5);
-        //ambientS *= saturate(DistanceToObject(pos + normal * 0.8).x*1.25);
-        //float ambient = ambientS * saturate(DistanceToObject(pos + normal * 1.6).x*1.25*0.5);
-        //ambient *= saturate(DistanceToObject(pos + normal * 3.2).x*1.25*0.25);
-        //ambient *= saturate(DistanceToObject(pos + normal * 6.4).x*1.25*0.125);
-        //ambient = max(0.15, pow(ambient, 0.3));	// tone down ambient with a pow and min clamp it.
-        //ambient = saturate(ambient);
+        float ambientS = 1.0;
+        ambientS *= saturate(DistanceToObject(pos + normal * 0.1).x*10.0);
+        ambientS *= saturate(DistanceToObject(pos + normal * 0.2).x*5.0);
+        ambientS *= saturate(DistanceToObject(pos + normal * 0.4).x*2.5);
+        ambientS *= saturate(DistanceToObject(pos + normal * 0.8).x*1.25);
+        float ambient = ambientS * saturate(DistanceToObject(pos + normal * 1.6).x*1.25*0.5);
+        ambient *= saturate(DistanceToObject(pos + normal * 3.2).x*1.25*0.25);
+        ambient *= saturate(DistanceToObject(pos + normal * 6.4).x*1.25*0.125);
+        ambient = max(0.15, pow(ambient, 0.3));	// tone down ambient with a pow and min clamp it.
+        ambient = saturate(ambient);
 
         // Trace a ray toward the sun for sun shadows
-        //float sunShadow = 1.0;
-        //float iter = 0.2;
-		//for (int i = 0; i < 10; i++)
-        //{
-        //    float tempDist = DistanceToObject(pos + sunDir * iter).x;
-	    //    sunShadow *= saturate(tempDist*10.0);
-        //    if (tempDist <= 0.0) break;
-        //    iter *= 1.5;	// constant is more reliable than distance-based
-        //    //iter += max(0.2, tempDist)*1.2;
-        //}
-        //sunShadow = saturate(sunShadow);
+        float sunShadow = 1.0;
+        float iter = 0.2;
+		for (int i = 0; i < 10; i++)
+        {
+            float tempDist = DistanceToObject(pos + sunDir * iter).x;
+	        sunShadow *= saturate(tempDist*10.0);
+            if (tempDist <= 0.0) break;
+            iter *= 1.5;	// constant is more reliable than distance-based
+            //iter += max(0.2, tempDist)*1.2;
+        }
+        sunShadow = saturate(sunShadow);
 
         // calculate the reflection vector for highlights
-        //vec3 ref = reflect(relVec, normal);
+        vec3 ref = reflect(relVec, normal);
 
         // ------ Calculate texture color of the rock ------
         // base texture can be swirled noise.
 		vec3 rp = RotateY(pos, pos.y*0.4 - cos(localTime)*0.4);
         float n = noise(rp*4.0) + noise(rp*8.0) + noise(rp*16.0) + noise(rp*32.0);
         n = saturate(n*0.25 * 0.95 + 0.05);
-        vec3 texColor = vec3(red,green,blue)*n*0.3;
+        vec3 texColor = vec3(red,green,blue)*n;
 
         // fade to reddish texture on outside
         texColor += vec3(0.99, 0.21, 0.213) * clamp(length(pos)-4.0, 0.0, 0.4);
@@ -582,18 +582,18 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
         // ------ Calculate lighting color ------
         // Start with sun color, standard lighting equation, and shadow
-        vec3 lightColor = sunCol * saturate(dot(sunDir, normal));// * sunShadow*14.0;
+        vec3 lightColor = sunCol * saturate(dot(sunDir, normal)) * sunShadow*14.0;
         // sky color, hemisphere light equation approximation, anbient occlusion
-        lightColor += vec3(0.1,0.35,0.95) * (normal.y * 0.5 + 0.5);// * ambient * 0.25;
+        lightColor += vec3(0.1,0.35,0.95) * (normal.y * 0.5 + 0.5) * ambient * 0.25;
         // ground color - another hemisphere light
-        lightColor += vec3(1.0) * ((-normal.y) * 0.5 + 0.5);// * ambient * 0.2;
+        lightColor += vec3(1.0) * ((-normal.y) * 0.5 + 0.5) * ambient * 0.2;
 
         // finally, apply the light to the texture.
-        finalColor = texColor * lightColor*0.3;
+        finalColor = texColor * lightColor;
 
         // specular highlights - just a little
-        //vec3 refColor = GetSunColorReflection(ref, sunDir)*0.68;
-        //finalColor += refColor * sunCol * sunShadow * 9.0 * texColor.g;
+        vec3 refColor = GetSunColorReflection(ref, sunDir)*0.68;
+        finalColor += refColor * sunCol * sunShadow * 9.0 * texColor.g;
 
         // fog that fades to sun color so that fog is brightest towards sun
         vec3 fog_color = mix(vec3(0.98, 0.981, 0.981) + min(vec3(0.25),GetSunColorSmall(relVec, sunDir))*2.0, finalColor, exp(-t*0.007));
@@ -607,7 +607,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     // fade the sky color, multiply sunset dimming
     vec3 sky = mix(vec3(1.0, 0.95, 0.85), vec3(0.2,0.5,0.95), pow(saturate(relVec.y), 0.7))*0.95;
     // add the sun
-    //sky += GetSunColorSmall(relVec, sunDir);// + vec3(0.1, 0.1, 0.1);	
+    sky += GetSunColorSmall(relVec, sunDir);// + vec3(0.1, 0.1, 0.1);	
 	
 	vec3 background_col = mix(max(vec3(0), wet_neurons_col), sky, background_blending*0.7);
 	
