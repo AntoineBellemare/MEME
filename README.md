@@ -13,7 +13,8 @@ The modulation modules can be used without the live EEG stream.
 
 Insert the __EEG_stream__ module in any Ableton track and set the UDP port accordingly to your EEG_synth patch. The light will flash if data is received.
 
-<img src="https://user-images.githubusercontent.com/49297774/151845478-ed5d5aa7-0a81-47cf-8626-7b2f2ce7f4d5.png" width="150">
+![Capture d’écran 2024-10-08 094611](https://github.com/user-attachments/assets/c4f93eed-ebd4-4c31-ad0f-91393f549d68)
+
 
 Insert the **EEG_mapper** or **EEG_mapper_multi** module in any Ableton track and choose the **feature** that you want **to map on any control parameter**
 
