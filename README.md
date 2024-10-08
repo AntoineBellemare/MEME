@@ -51,9 +51,9 @@ The **thresholder** is a module designed to **trigger MIDI notes** when a specif
 
 ![Capture d’écran 2024-10-08 101555](https://github.com/user-attachments/assets/4389f274-7455-4078-bba9-a6d32e5ab1b5)
 
-## Machine learning modules
+<!--### ## Machine learning modules
 
-<!--### Brain decoder
+Brain decoder
 
 The **Brain decoder** module uses **supervised machine learning classifiers**. By feeding data from different mental states, the algorithm learns to classify new data as belonging to one of the pre-learned state. By clicking on the ''features'' button, the choice of feature can be made.
 
@@ -67,19 +67,38 @@ The **Fuzzy Adaptive Resonance Neural Network** module uses **unsupervised machi
 ## Biotuner modules
 
 These modules interface the Biotuner Python toolbox (https://github.com/antoinebellemare/biotuner)
-They allow to use **dynamical microtonal tunings** and **euclidean rhythms** derived from EEG signals for realtime musical composition.
+They allow to use **dynamical microtonal tunings**, **modulations based on peak frequencies** and **euclidean rhythms** derived from biosignals for realtime musical composition.
 
-### Tuning Foraging
+### Scale Foraging
 
-The **Tuning Foraging** module allows **flexible control over biotunings**, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
+The **Scale Foraging** module allows **flexible control over biotunings**, whether by controlling how often the tuning changes, how many notes are in the tuning, as well as the degree of harmonic similarity between two successive tunings. 
 
-<img src="https://user-images.githubusercontent.com/49297774/151845582-93dc7509-00aa-4430-876f-2fa14d691c2a.png" width="750">
+![Capture d’écran 2024-10-08 102632](https://github.com/user-attachments/assets/55e8a874-ebf8-4a6c-87ab-78f255c858f6)
 
-### MIDI_microtonality
+### MIDI-microtonality
 
-The **MIDI_microtonality** module allows to **load tuning files** from .scl and .txt, as well as **write new tunings** directly in the module. It can also be coupled with the Tuning Foraging module to **receive tunings dynamically from the Biotuner**.
+The **MIDI-microtonality** module allows to **load tuning files** from .scl and .txt, as well as **write new tunings** directly in the module. It can also be coupled with the Tuning Foraging module to **receive tunings dynamically from the Biotuner**.
 
-<img src="https://user-images.githubusercontent.com/49297774/151845607-9367cadd-68ee-4c19-ae4a-8ad99d942e21.png" width="500">
+![Capture d’écran 2024-10-08 102640](https://github.com/user-attachments/assets/0920d9e1-be46-4266-b574-985a9e82057b)
+
+### Biotuner Chords
+
+The **BT-peaks-chord** module maps frequency peaks to notes, with controls for octave shift. Specify the OSC address of the incoming list of peaks to enable real-time chord generation based on biosignals.
+
+![Capture d’écran 2024-10-08 102005](https://github.com/user-attachments/assets/6747feed-ae30-4869-a671-c8953d6051c0)
+
+### Low-Frequency Oscillators (LFOs) based on Spectral Peaks 
+
+The **BT-LFO** module generates LFOs based on spectral peaks detected in biosignals. These LFOs can be mapped to various parameters in real-time musical compositions.
+
+#### Key Features
+
+- **Dynamic Peak Modulation**: Two spectral peaks from biosignals are mapped onto LFOs, each with adjustable depth and frequency ranges.
+- **Smooth Control**: Control the smoothness of each LFO waveform, adjusting how quickly the modulation responds to changes.
+- **(Sub)harmonic Modulations**: Toggle and adjust harmonic and subharmonic modulations, allowing for rich, complex waveform generation influenced by biosignals.
+- **Frequency Range Control**: Set minimum and maximum frequency limits to tailor the LFO’s impact on the audio parameters.
+
+![Capture d’écran 2024-10-08 102535](https://github.com/user-attachments/assets/59be8093-37e9-4cd5-b751-e23f57edfc14)
 
 ### Biotuner-Euclid
 
